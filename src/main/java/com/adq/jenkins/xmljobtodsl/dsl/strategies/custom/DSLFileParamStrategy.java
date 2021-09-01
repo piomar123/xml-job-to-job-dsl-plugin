@@ -6,11 +6,11 @@ import com.adq.jenkins.xmljobtodsl.dsl.strategies.DSLMethodStrategy;
 import com.adq.jenkins.xmljobtodsl.dsl.strategies.DSLStrategy;
 import com.adq.jenkins.xmljobtodsl.parsers.PropertyDescriptor;
 
-public class DSLParamStrategy extends DSLMethodStrategy {
+public class DSLFileParamStrategy extends DSLMethodStrategy {
 
     private final String methodName;
 
-    public DSLParamStrategy(int tabs, PropertyDescriptor propertyDescriptor, String methodName) {
+    public DSLFileParamStrategy(int tabs, PropertyDescriptor propertyDescriptor, String methodName) {
         super(tabs, propertyDescriptor, methodName);
         this.methodName = methodName;
     }
@@ -22,10 +22,9 @@ public class DSLParamStrategy extends DSLMethodStrategy {
     }
 
     public String getOrderedChildrenDSL() {
-        String defaultValue = getChildrenByName("defaultValue").map(DSLStrategy::toDSL).orElse("\"\"");
-        String name = getChildrenByName("name").map(DSLStrategy::toDSL).orElse("\"\"");
-        String description = getChildrenByName("description").map(DSLStrategy::toDSL).orElse("\"\"");
-        return name + ", " + defaultValue + ", " + description;
+        String name = getChildrenByName("name").map(DSLStrategy::toDSL).orElse("''");
+        String description = getChildrenByName("description").map(DSLStrategy::toDSL).orElse("''");
+        return name +  ", " + description;
     }
 
     private Optional<DSLStrategy> getChildrenByName(String name) {

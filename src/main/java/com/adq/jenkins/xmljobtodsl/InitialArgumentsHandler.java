@@ -74,10 +74,27 @@ public class InitialArgumentsHandler {
 	}
 
 	public void process() throws IOException, ParserConfigurationException, SAXException {
-		String xml = null;
-		String jobName = null;
 		IOUtils ioUtils = new IOUtils();
+		JobDescriptor[] descriptors = getJobDescriptors(ioUtils);
 
+		DSLTranslator translator = new DSLTranslator(descriptors);
+
+		String dsl = translator.toDSL();
+		if (output != null) {
+			ioUtils.saveToFile(dsl, output);
+		} else {
+			System.out.println(dsl);
+		}
+		unknownTags = translator.getNotTranslated();
+		System.out.println("\n\nWARNING:\nThe following tags couldn't be translated:");
+		for (PropertyDescriptor property : unknownTags) {
+			System.out.printf("* %s%n", property.getName());
+		}
+	}
+
+	private JobDescriptor[] getJobDescriptors(final IOUtils ioUtils) throws IOException, ParserConfigurationException, SAXException {
+		String xml;
+		String jobName;
 		JobDescriptor[] descriptors = null;
 
 		if (inputType == InputType.FILE) {
@@ -100,20 +117,7 @@ public class InitialArgumentsHandler {
 			File[] files = ioUtils.getJobXmlFilesInDirectory(input);
 			descriptors = getJobDescriptors(files);
 		}
-
-		DSLTranslator translator = new DSLTranslator(descriptors);
-
-		String dsl = translator.toDSL();
-		if (output != null) {
-			ioUtils.saveToFile(dsl, output);
-		} else {
-			System.out.println(dsl);
-		}
-		unknownTags = translator.getNotTranslated();
-		System.out.println("\n\nWARNING:\nThe following tags couldn't be translated:");
-		for (PropertyDescriptor property : unknownTags) {
-			System.out.println(String.format("* %s", property.getName()));
-		}
+		return descriptors;
 	}
 
 	public static String getJobNameBasedOnPath(File file) {
