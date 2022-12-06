@@ -174,7 +174,7 @@ public abstract class AbstractDSLStrategy implements DSLStrategy {
 
 	public String printValueAccordingOfItsType(String value) {
 		if (value == null) {
-			return "\"\"";
+			return "''";
 		}
 		if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
 			return value;
@@ -183,19 +183,18 @@ public abstract class AbstractDSLStrategy implements DSLStrategy {
 			return value;
 		}
 		if (value.isEmpty()) {
-			return "\"\"";
+			return "''";
 		}
 
 		value = value.replaceAll("\\\\", "\\\\\\\\");
-		value = value.replaceAll("\\$", Matcher.quoteReplacement("\\$"));
 
 		if (value.contains("\n")) {
-			value = value.replaceAll(Pattern.quote("\"\"\""), Matcher.quoteReplacement("\\\"\\\"\\\""));
-			return "\"\"\"" + value + "\"\"\"";
+			value = value.replaceAll(Pattern.quote("'''"), Matcher.quoteReplacement("\\'\\'\\'"));
+			return "'''" + value + "'''";
 		} else {
-			value = value.replaceAll(Pattern.quote("\""), Matcher.quoteReplacement("\\\""));
+			value = value.replaceAll(Pattern.quote("'"), Matcher.quoteReplacement("\\'"));
 		}
-		return "\"" + value + "\"";
+		return "'" + value + "'";
 	}
 
 	private int countChar(char lookAt, String str) {

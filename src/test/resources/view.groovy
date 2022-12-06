@@ -1,7 +1,7 @@
-listView("test") {
+listView('test') {
 	jobs {
-		name("test1")
-		name("test2")
+		name('test1')
+		name('test2')
 	}
 	columns {
 		status()

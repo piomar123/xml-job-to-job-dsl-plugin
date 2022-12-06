@@ -18,7 +18,7 @@ public class DSLMandatoryStringStrategy extends DSLMethodStrategy {
 		String value = descriptor.getValue();
 		if (value == null || value.trim().equals("")) {
 			return replaceTabs(String.format(getSyntax("syntax.method_call"),
-					methodName, "\"\""), getTabs());
+					methodName, "''"), getTabs());
 		}
 		return super.toDSL();
 	}

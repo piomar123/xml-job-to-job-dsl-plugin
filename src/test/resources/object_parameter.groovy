@@ -1,10 +1,10 @@
-job("test") {
-	blockOn("""Build-iOS-App
+job('test') {
+	blockOn('''Build-iOS-App
 			Build-Android-App
 			Run-iOS-Tests
-			Run-Android-Tests""", {
-		blockLevel("GLOBAL")
-		scanQueueFor("DISABLED")
+			Run-Android-Tests''', {
+		blockLevel('GLOBAL')
+		scanQueueFor('DISABLED')
 	})
 	configure {
 		it / 'properties' / 'com.coravy.hudson.plugins.github.GithubProjectProperty' {

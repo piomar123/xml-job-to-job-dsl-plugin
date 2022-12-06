@@ -1,11 +1,11 @@
-job("test") {
+job('test') {
 	scm {
 		git {
 			remote {
-				github("alandoni/xml-job-to-dsl", "https")
-				credentials("jenkins")
+				github('alandoni/xml-job-to-dsl', 'https')
+				credentials('jenkins')
 			}
-			branch("*/\${GIT_BRANCH}")
+			branch('*/${GIT_BRANCH}')
 			extensions {
 				wipeOutWorkspace()
 			}

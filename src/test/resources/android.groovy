@@ -1,35 +1,35 @@
-job("test") {
-	description("Build Android")
+job('test') {
+	description('Build Android')
 	keepDependencies(false)
 	parameters {
-		stringParam("branch", "master", "")
+		stringParam('branch', 'master', '')
 	}
 	scm {
 		git {
 			remote {
-				name("origin")
-				github("alandoni/xml-job-to-dsl", "ssh")
+				name('origin')
+				github('alandoni/xml-job-to-dsl', 'ssh')
 			}
-			branch("*/\${branch}")
+			branch('*/${branch}')
 		}
 	}
 	disabled(false)
 	concurrentBuild(false)
 	steps {
-		shell("""touch app/fabric.properties
+		shell('''touch app/fabric.properties
                 echo "apiSecret=asd
                 apiKey=asd" > app/fabric.properties
 
                 cp app/fabric.properties messagingapp/fabric.properties
 
-                tools/buildnotes.sh""")
+                tools/buildnotes.sh''')
 		gradle {
 			description()
 			switches()
-			tasks("clean assembleRelease")
+			tasks('clean assembleRelease')
 			fromRootBuildScriptDir()
 			buildFile()
-			gradleName("(Default)")
+			gradleName('(Default)')
 			useWrapper(true)
 			makeExecutable(true)
 			useWorkspaceAsHome(false)
@@ -37,10 +37,10 @@ job("test") {
 		gradle {
 			description()
 			switches()
-			tasks("crashlyticsUploadDistributionRelease")
+			tasks('crashlyticsUploadDistributionRelease')
 			fromRootBuildScriptDir()
 			buildFile()
-			gradleName("(Default)")
+			gradleName('(Default)')
 			useWrapper(true)
 			makeExecutable(true)
 			useWorkspaceAsHome(false)
@@ -48,21 +48,21 @@ job("test") {
 	}
 	publishers {
 		archiveArtifacts {
-			pattern("job/build/outputs/apk/release/*.apk")
+			pattern('job/build/outputs/apk/release/*.apk')
 			allowEmpty(false)
 			onlyIfSuccessful(false)
 			fingerprint(false)
 			defaultExcludes(true)
 		}
-		mailer("alan_doni@hotmail.com", false, false)
+		mailer('alan_doni@hotmail.com', false, false)
 	}
 	wrappers {
 		environmentVariables {
-			env("ANDROID_HOME", "/Users/Shared/Jenkins/android-sdk-macosx/")
-			env("KEYSTORE_LOCATION", "/Users/Shared/Jenkins/release.jks")
-			env("KEYSTORE_PASSWORD", "devsonly")
-			env("KEY_NAME", "androidDevs")
-			env("KEY_PASSWORD", "androidDevsOnly")
+			env('ANDROID_HOME', '/Users/Shared/Jenkins/android-sdk-macosx/')
+			env('KEYSTORE_LOCATION', '/Users/Shared/Jenkins/release.jks')
+			env('KEYSTORE_PASSWORD', 'devsonly')
+			env('KEY_NAME', 'androidDevs')
+			env('KEY_PASSWORD', 'androidDevsOnly')
 			groovy()
 		}
 	}

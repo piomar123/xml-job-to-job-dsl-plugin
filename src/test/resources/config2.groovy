@@ -1,40 +1,40 @@
-job("test") {
+job('test') {
 	description()
 	keepDependencies(false)
 	scm {
 		git {
 			remote {
-				name("origin")
-				github("alandony/xml-job-to-dsl", "ssh")
+				name('origin')
+				github('alandony/xml-job-to-dsl', 'ssh')
 			}
-			branch("*/master")
+			branch('*/master')
 		}
 	}
 	disabled(true)
 	triggers {
-		scm("H/45 * * * *") {
+		scm('H/45 * * * *') {
 			ignorePostCommitHooks(false)
 		}
 	}
 	concurrentBuild(false)
 	steps {
-		shell("""touch app/fabric.properties
+		shell('''touch app/fabric.properties
 echo "apiSecret=asdasd
 apiKey=asdasd" > app/fabric.properties
 
 cp app/fabric.properties dsl/fabric.properties
 
-echo "This build comes from the branch [\${GIT_BRANCH}]" > dsl/notes.txt
+echo "This build comes from the branch [${GIT_BRANCH}]" > dsl/notes.txt
 
 #disable release notes because they're constantly too long
-LAST_SUCCESS_REV=\$(curl --silent http://localhost:8080/job/DSL/lastSuccessfulBuild/api/xml?xpath=//lastBuiltRevision/SHA1| sed 's|.*<SHA1>\\(.*\\)</SHA1>|\\1|')
-git log --no-merges --format='%s [%cE]' \$LAST_SUCCESS_REV..\${GIT_COMMIT} >> dsl/notes.txt""")
+LAST_SUCCESS_REV=$(curl --silent http://localhost:8080/job/DSL/lastSuccessfulBuild/api/xml?xpath=//lastBuiltRevision/SHA1| sed 's|.*<SHA1>\\(.*\\)</SHA1>|\\1|')
+git log --no-merges --format='%s [%cE]' $LAST_SUCCESS_REV..${GIT_COMMIT} >> dsl/notes.txt''')
 		gradle {
 			switches()
-			tasks("clean assembleDebug crashlyticsUploadDistributionDebug")
+			tasks('clean assembleDebug crashlyticsUploadDistributionDebug')
 			fromRootBuildScriptDir()
 			buildFile()
-			gradleName("(Default)")
+			gradleName('(Default)')
 			useWrapper(true)
 			makeExecutable(true)
 			useWorkspaceAsHome(false)
@@ -42,18 +42,18 @@ git log --no-merges --format='%s [%cE]' \$LAST_SUCCESS_REV..\${GIT_COMMIT} >> ds
 	}
 	publishers {
 		archiveArtifacts {
-			pattern("dsl/build/outputs/apk/*.apk")
+			pattern('dsl/build/outputs/apk/*.apk')
 			allowEmpty(false)
 			onlyIfSuccessful(false)
 			fingerprint(false)
 			defaultExcludes(true)
 		}
-		mailer("alan_doni@hotmail.com", true, false)
+		mailer('alan_doni@hotmail.com', true, false)
 	}
 	wrappers {
 		environmentVariables {
-			env("ANDROID_HOME", "/Users/jenkins/android-sdk/")
-			env("JAVA_HOME", "/Library/Java/JavaVirtualMachines/jdk1.8.0_05.jdk/Contents/Home")
+			env('ANDROID_HOME', '/Users/jenkins/android-sdk/')
+			env('JAVA_HOME', '/Library/Java/JavaVirtualMachines/jdk1.8.0_05.jdk/Contents/Home')
 		}
 	}
 	configure {

@@ -20,8 +20,8 @@ public class DSLStringAsArrayStrategy extends DSLArrayStrategy implements IValue
 		StringBuilder builder = new StringBuilder();
 
 		for (int i = 0; i < lines.length; i++) {
-			builder.append(lines[i].replace("=", ": \""));
-			builder.append("\"");
+			builder.append(lines[i].replace("=", ": '"));
+			builder.append("'");
 			if (i < lines.length - 1) {
 				builder.append(String.format(",%n"));
 			}

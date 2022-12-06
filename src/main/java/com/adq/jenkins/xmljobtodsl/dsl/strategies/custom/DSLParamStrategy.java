@@ -22,9 +22,9 @@ public class DSLParamStrategy extends DSLMethodStrategy {
     }
 
     public String getOrderedChildrenDSL() {
-        String defaultValue = getChildrenByName("defaultValue").map(DSLStrategy::toDSL).orElse("\"\"");
-        String name = getChildrenByName("name").map(DSLStrategy::toDSL).orElse("\"\"");
-        String description = getChildrenByName("description").map(DSLStrategy::toDSL).orElse("\"\"");
+        String defaultValue = getChildrenByName("defaultValue").map(DSLStrategy::toDSL).orElse("''");
+        String name = getChildrenByName("name").map(DSLStrategy::toDSL).orElse("''");
+        String description = getChildrenByName("description").map(DSLStrategy::toDSL).orElse("''");
         return name + ", " + defaultValue + ", " + description;
     }
 

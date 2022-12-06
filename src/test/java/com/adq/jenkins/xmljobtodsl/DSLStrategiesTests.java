@@ -34,7 +34,7 @@ public class DSLStrategiesTests {
 		DSLParameterStrategy strategy = new DSLParameterStrategy(null);
 
 		String actual = strategy.printValueAccordingOfItsType(null);
-		Assert.assertEquals("\"\"", actual);
+		Assert.assertEquals("''", actual);
 
 		actual = strategy.printValueAccordingOfItsType("true");
 		Assert.assertEquals("true", actual);
@@ -49,48 +49,54 @@ public class DSLStrategiesTests {
 		Assert.assertEquals("1.2", actual);
 
 		actual = strategy.printValueAccordingOfItsType("10.240.50.36");
-		Assert.assertEquals("\"10.240.50.36\"", actual);
+		Assert.assertEquals("'10.240.50.36'", actual);
 
 		actual = strategy.printValueAccordingOfItsType("1.2.1");
-		Assert.assertEquals("\"1.2.1\"", actual);
+		Assert.assertEquals("'1.2.1'", actual);
 
 		actual = strategy.printValueAccordingOfItsType("1,2");
-		Assert.assertEquals("\"1,2\"", actual);
+		Assert.assertEquals("'1,2'", actual);
 
 		actual = strategy.printValueAccordingOfItsType("1 2");
-		Assert.assertEquals("\"1 2\"", actual);
+		Assert.assertEquals("'1 2'", actual);
 
 		actual = strategy.printValueAccordingOfItsType("test");
-		Assert.assertEquals("\"test\"", actual);
+		Assert.assertEquals("'test'", actual);
 
 		actual = strategy.printValueAccordingOfItsType("hey \"test\" it");
-		Assert.assertEquals("\"hey \\\"test\\\" it\"", actual);
+		Assert.assertEquals("'hey \"test\" it'", actual);
+
+		actual = strategy.printValueAccordingOfItsType("hey 'test' it");
+		Assert.assertEquals("'hey \\'test\\' it'", actual);
 
 		actual = strategy.printValueAccordingOfItsType("test\ntest");
-		Assert.assertEquals("\"\"\"test\ntest\"\"\"", actual);
+		Assert.assertEquals("'''test\ntest'''", actual);
 
 		actual = strategy.printValueAccordingOfItsType("");
-		Assert.assertEquals("\"\"", actual);
+		Assert.assertEquals("''", actual);
 
 		actual = strategy.printValueAccordingOfItsType("test ${test}");
-		Assert.assertEquals("\"test \\${test}\"", actual);
+		Assert.assertEquals("'test ${test}'", actual);
 
 		actual = strategy.printValueAccordingOfItsType("test \n ${test}");
-		Assert.assertEquals("\"\"\"test \n \\${test}\"\"\"", actual);
+		Assert.assertEquals("'''test \n ${test}'''", actual);
 
 		actual = strategy.printValueAccordingOfItsType("$(echo \"test\")");
-		Assert.assertEquals("\"\\$(echo \\\"test\\\")\"", actual);
+		Assert.assertEquals("'$(echo \"test\")'", actual);
 
 		actual = strategy.printValueAccordingOfItsType("$(echo \"test\")\n$(echo \"test\")");
-		Assert.assertEquals("\"\"\"\\$(echo \"test\")\n\\$(echo \"test\")\"\"\"", actual);
+		Assert.assertEquals("'''$(echo \"test\")\n$(echo \"test\")'''", actual);
 
 		actual = strategy.printValueAccordingOfItsType("origin/master&#xd;");
-		Assert.assertEquals(String.format("\"origin/master&#xd;\""), actual);
+		Assert.assertEquals(String.format("'origin/master&#xd;'"), actual);
 
 		actual = strategy.printValueAccordingOfItsType("origin/$BRANCH");
-		Assert.assertEquals(String.format("\"origin/\\$BRANCH\""), actual);
+		Assert.assertEquals(String.format("'origin/$BRANCH'"), actual);
 
 		actual = strategy.printValueAccordingOfItsType("test \"\"\" test \n test \"\"\" test");
-		Assert.assertEquals("\"\"\"test \\\"\\\"\\\" test \n test \\\"\\\"\\\" test\"\"\"", actual);
+		Assert.assertEquals("'''test \"\"\" test \n test \"\"\" test'''", actual);
+
+		actual = strategy.printValueAccordingOfItsType("test ''' test \n test ''' test");
+		Assert.assertEquals("'''test \\'\\'\\' test \n test \\'\\'\\' test'''", actual);
 	}
 }
