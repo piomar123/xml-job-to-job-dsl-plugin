@@ -14,10 +14,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class InitialArgumentsHandler {
 
+	private static final Pattern REMOVE_FILE_EXTENSION_PATTERN = Pattern.compile("(.+?)(?:\\.[^.]+$|$)");
 	private String input;
 	private String output;
 	private InputType inputType;
@@ -123,7 +125,18 @@ public class InitialArgumentsHandler {
 	public static String getJobNameBasedOnPath(File file) {
 		String pattern = File.separator;
 		String[] segments = file.getAbsolutePath().split(Pattern.quote(pattern));
-		return segments[segments.length - 2];
+		String fileName = segments[segments.length - 1];
+		String directoryName = segments[segments.length - 2];
+		if (fileName.equals("config.xml")) {
+			return directoryName;
+		} else {
+			Matcher fileNameMatcher = REMOVE_FILE_EXTENSION_PATTERN.matcher(fileName);
+			if (fileNameMatcher.find()) {
+				return fileNameMatcher.group(1);
+			} else {
+				return directoryName;
+			}
+		}
 	}
 
 	private JobDescriptor[] getJobDescriptors(File[] files)
