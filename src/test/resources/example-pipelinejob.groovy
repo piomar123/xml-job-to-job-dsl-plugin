@@ -178,7 +178,7 @@ pipelineJob('test') {
 		git {
 			remote {
 				name('origin')
-				github('alandoni/xml-job-to-dsl', 'https')
+				url('https://github.com/alandoni/xml-job-to-dsl.git')
 				credentials('jenkins')
 			}
 			branch('*/${GIT_BRANCH}')
@@ -192,7 +192,7 @@ pipelineJob('test') {
 			scm {
 				git {
 					remote {
-						github('alandoni/xml-job-to-dsl', 'https')
+						url('https://github.com/alandoni/xml-job-to-dsl.git')
 						credentials('jenkins')
 					}
 					branch('*/${GIT_BRANCH}')

@@ -6,7 +6,7 @@ job('test') {
 		git {
 			remote {
 				name('origin')
-				github('alandoni/xml-job-to-dsl', 'https')
+				url('https://github.com/alandoni/xml-job-to-dsl.git')
 				credentials('abc123')
 			}
 			branch('refs/heads/master')
