@@ -8,7 +8,7 @@ job('test') {
 		git {
 			remote {
 				name('origin')
-				github('alandoni/xml-job-to-dsl', 'ssh')
+				url('git@github.com:alandoni/xml-job-to-dsl.git')
 			}
 			branch('*/${branch}')
 		}

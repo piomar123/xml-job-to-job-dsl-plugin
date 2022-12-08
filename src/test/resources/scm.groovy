@@ -2,7 +2,7 @@ job('test') {
 	scm {
 		git {
 			remote {
-				github('alandoni/xml-job-to-dsl', 'https')
+				url('https://github.com/alandoni/xml-job-to-dsl')
 				credentials('jenkins')
 			}
 			branch('*/${GIT_BRANCH}')

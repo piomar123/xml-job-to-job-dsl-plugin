@@ -5,7 +5,7 @@ job('test') {
 		git {
 			remote {
 				name('origin')
-				github('alandony/xml-job-to-dsl', 'ssh')
+				url('git@github.com:alandony/xml-job-to-dsl.git')
 			}
 			branch('*/master')
 		}
